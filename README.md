@@ -42,7 +42,7 @@ When the sentence is not contained in the grammar, the parser won't print out a 
 The given sentence is not contained in the language produced by the given grammar!
 
 # Example input
-An example for a simple grammar is given below. Just paste it in an text file and run the parser with it and an input sentence file (it is assumed, that the whole input sentence is in the first line of that file).  
+An example for a simple grammar is given below. Just paste it in a text file and run the parser with it and an input sentence file (it is assumed, that the whole input sentence is in the first line of that file).  
 
 S -> NP VP  
 PP -> P NP  
