@@ -1,8 +1,7 @@
 # CYK-Parser
 
 This is a simple context-free grammar parser written in Python 3.
-It includes a converter to bring a context-free grammar in chomsky normal form. It can't handle epsilon productions.
-For the actual parsing the Cocke-Younger-Kasamai algorithm is used.
+It includes a converter to transform a context-free grammar to chomsky normal form. The converter can't handle epsilon productions, though. For the actual parsing the Cocke-Younger-Kasamai algorithm is used.
 
 #
 
@@ -12,7 +11,7 @@ The code isn't by any means perfect and isn't supposed to.
 # Usage
 
 To run the parser **Python 3.6** needs to be installed. There are two ways of running the parser: with or
-without arguments. The File "GrammarConverter.py" needs to be either in the same directory or within a directory, in which
+without arguments. The file "GrammarConverter.py" needs to be either in the same directory or within a directory, in which
 Python looks for modules to include. The program can be run as a module (`python3 -m Parser`), when
 in the same directory, or as a normal python program.
 
@@ -23,8 +22,7 @@ as path for the sentence.
 
 Additionally the parser be called directly with the grammar in string representation and/or the sentence in string representation.
 
-When the sentence is contained in the grammar, the parser will output the parsed tree in a
-non-graphical string format.
+When the sentence is contained in the grammar, the parser will output the parsed tree in a non-graphical string format.
 
 `python3 Parser.py grammar.txt "I shot an elephant in my pajamas"`  
 > Using grammar.txt as path for the grammar and sentence.txt as path for the sentence.  
