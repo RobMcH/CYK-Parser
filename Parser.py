@@ -33,6 +33,11 @@ class Node:
 
 
 class Parser:
+    """
+    A CYK parser which is able to parse any grammar in CNF. The grammar can be read from a file or
+    passed as a string. It either returns a string representation of the parse tree(s) or prints it
+    to standard out.
+    """
     def __init__(self, grammar, sentence):
         """
         Creates a new parser object which will read in the grammar and transform it into CNF and
@@ -118,12 +123,12 @@ class Parser:
                             # (of the current rule) is modified. In this way ambiguous sentences
                             # are handled.
                             if len(prod1) > 1:
-                                for ind, x in enumerate(prod1):
-                                    if x == rule[1] and ind != prod1.index(rule[1]):
+                                for ind, symbol in enumerate(prod1):
+                                    if symbol == rule[1] and ind != prod1.index(rule[1]):
                                         node.child1.append((j, k, ind))
                             if len(prod2) > 1:
-                                for ind, x in enumerate(prod2):
-                                    if x == rule[2] and ind != prod2.index(rule[2]):
+                                for ind, symbol in enumerate(prod2):
+                                    if symbol == rule[2] and ind != prod2.index(rule[2]):
                                         node.child2.append((k, i, ind))
 
     def print_tree(self, output = True):
@@ -172,14 +177,14 @@ class Parser:
 
 
 if __name__ == '__main__':
-    ar = sys.argv
-    if len(ar) > 3 or len(ar) == 2:
+    ARGUMENTS = sys.argv
+    if len(ARGUMENTS) > 3 or len(ARGUMENTS) == 2:
         print("Usage: python3 Parser.py <grammar.file> <sentence.file>\n"
               "or: python3 Parser.py <grammar as string> <sentence as string>")
-    elif len(ar) == 3:
-        gram = "as path for the grammar" if os.path.isfile(ar[1]) else "as grammar"
-        sent = "as path for the sentence" if os.path.isfile(ar[2]) else "as sentence"
-        print(f"Using {ar[1]} {gram} and {ar[2]} {sent}.")
-        parser = Parser(ar[1], ar[2])
-        parser.parse()
-        parser.print_tree()
+    elif len(ARGUMENTS) == 3:
+        GRAMMAR = "as path for the grammar" if os.path.isfile(ARGUMENTS[1]) else "as grammar"
+        SENTENCE = "as path for the sentence" if os.path.isfile(ARGUMENTS[2]) else "as sentence"
+        print(f"Using {ARGUMENTS[1]} {GRAMMAR} and {ARGUMENTS[2]} {SENTENCE}.")
+        PARSER = Parser(ARGUMENTS[1], ARGUMENTS[2])
+        PARSER.parse()
+        PARSER.print_tree()

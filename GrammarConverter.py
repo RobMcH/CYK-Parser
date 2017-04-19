@@ -1,5 +1,5 @@
 # Global dictionary used for storing the rules.
-rule_dict = {}
+RULE_DICT = {}
 
 
 def read_grammar(grammar_file):
@@ -18,11 +18,11 @@ def add_rule(rule):
     Adds a rule to the dictionary of lists of rules.
     :param rule: the rule to add to the dict.
     """
-    global rule_dict
+    global RULE_DICT
 
-    if rule[0] not in rule_dict:
-        rule_dict[rule[0]] = []
-    rule_dict[rule[0]].append(rule[1:])
+    if rule[0] not in RULE_DICT:
+        RULE_DICT[rule[0]] = []
+    RULE_DICT[rule[0]].append(rule[1:])
 
 
 def convert_grammar(grammar):
@@ -42,7 +42,7 @@ def convert_grammar(grammar):
     """
 
     # Remove all the productions of the type A -> X B C or A -> B a.
-    global rule_dict
+    global RULE_DICT
     unit_productions, result = [], []
     res_append = result.append
     index = 0
@@ -57,12 +57,12 @@ def convert_grammar(grammar):
         elif len(rule) > 2:
             # Rule is in form A -> X B C or A -> X a.
             terminals = [(item, i) for i, item in enumerate(rule) if item[0] == "'"]
-            if len(terminals) > 0:
-                for i in range(len(terminals)):
+            if terminals:
+                for item in terminals:
                     # Create a new non terminal symbol and replace the terminal symbol with it.
                     # The non terminal symbol derives the replaced terminal symbol.
-                    rule[terminals[i][1]] = f"{rule[0]}{str(index)}"
-                    new_rules += [f"{rule[0]}{str(index)}", terminals[i][0]]
+                    rule[item[1]] = f"{rule[0]}{str(index)}"
+                    new_rules += [f"{rule[0]}{str(index)}", item[0]]
                 index += 1
             while len(rule) > 3:
                 new_rules += [f"{rule[0]}{str(index)}", rule[1], rule[2]]
@@ -71,13 +71,13 @@ def convert_grammar(grammar):
         # Adds the modified or unmodified (in case of A -> x i.e.) rules.
         add_rule(rule)
         res_append(rule)
-        if len(new_rules) > 0:
+        if new_rules:
             res_append(new_rules)
     # Handle the unit productions (A -> X)
-    while len(unit_productions) > 0:
+    while unit_productions:
         rule = unit_productions.pop()
-        if rule[1] in rule_dict:
-            for item in rule_dict[rule[1]]:
+        if rule[1] in RULE_DICT:
+            for item in RULE_DICT[rule[1]]:
                 new_rule = [rule[0]] + item
                 if len(new_rule) > 2 or new_rule[1][0] == "'":
                     res_append(new_rule)
