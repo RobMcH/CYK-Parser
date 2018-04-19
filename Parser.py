@@ -125,7 +125,7 @@ class Parser:
                 print("The given sentence is contained in the language produced by the given "
                       "grammar!")
                 print("\nPossible parse(s):")
-            trees = [generate_trees(node) for node in final_nodes]
+            trees = [generate_tree(node) for node in final_nodes]
             if output:
                 for tree in trees:
                     print(tree)
@@ -135,16 +135,16 @@ class Parser:
             print("The given sentence is not contained in the language produced by the given "
                   "grammar!")
 
-def generate_trees(node):
+def generate_tree(node):
     """
-    Generates a list the string representation of the parse tree(s).
+    Generates the string representation of the parse tree.
     :param nodes: the root node.
     :return: the parse tree in string form.
     """
     if node.child2 == None:
         return f"[{node.symbol} '{node.child1}']"
     else:
-        return f"[{node.symbol} {generate_trees(node.child1)} {generate_trees(node.child2)}]"
+        return f"[{node.symbol} {generate_tree(node.child1)} {generate_tree(node.child2)}]"
 
 if __name__ == '__main__':
     ARGUMENTS = sys.argv
