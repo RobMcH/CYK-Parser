@@ -1,10 +1,6 @@
-import sys
 import os.path
-
-try:
-    from . import GrammarConverter
-except (SystemError, ImportError):
-    import GrammarConverter
+import argparse
+import grammar_converter
 
 
 class Node:
@@ -16,7 +12,8 @@ class Node:
     where according to the ambiguous rule).
     Either child1 is a terminal symbol passed as string, or both children are Nodes.
     """
-    def __init__(self, symbol, child1, child2 = None):
+
+    def __init__(self, symbol, child1, child2=None):
         self.symbol = symbol
         self.child1 = child1
         self.child2 = child2
@@ -34,6 +31,7 @@ class Parser:
     passed as a string. It either returns a string representation of the parse tree(s) or prints it
     to standard out.
     """
+
     def __init__(self, grammar, sentence):
         """
         Creates a new parser object which will read in the grammar and transform it into CNF and
@@ -50,7 +48,7 @@ class Parser:
             self.grammar_from_string(grammar)
         self.__call__(sentence)
 
-    def __call__(self, sentence, parse = False):
+    def __call__(self, sentence, parse=False):
         """
         Parse the given sentence (string or file) with the earlier given grammar.
         :param sentence: the sentence to parse with self.grammar
@@ -68,7 +66,7 @@ class Parser:
         Reads in a CFG from a given file, converts it to CNF and stores it in self.grammar.
         :param grammar: the file in which the grammar is stored.
         """
-        self.grammar = GrammarConverter.convert_grammar(GrammarConverter.read_grammar(grammar))
+        self.grammar = grammar_converter.convert_grammar(grammar_converter.read_grammar(grammar))
 
     def grammar_from_string(self, grammar):
         """
@@ -76,8 +74,7 @@ class Parser:
         :param grammar: the CFG in string representation.
         :return:
         """
-        self.grammar = GrammarConverter.convert_grammar(
-            [x.replace("->", "").split() for x in grammar.split("\n")])
+        self.grammar = grammar_converter.convert_grammar([x.replace("->", "").split() for x in grammar.split("\n")])
 
     def parse(self):
         """
@@ -112,18 +109,16 @@ class Parser:
                                 [Node(rule[0], left, right) for left in left_nodes for right in right_nodes]
                             )
 
-    def print_tree(self, output = True):
+    def print_tree(self, output=True):
         """
         Print the parse tree starting with the start symbol. Alternatively it returns the string
         representation of the tree(s) instead of printing it.
         """
         start_symbol = self.grammar[0][0]
-
         final_nodes = [n for n in self.parse_table[-1][0] if n.symbol == start_symbol]
         if final_nodes:
             if output:
-                print("The given sentence is contained in the language produced by the given "
-                      "grammar!")
+                print("The given sentence is contained in the language produced by the given grammar!")
                 print("\nPossible parse(s):")
             trees = [generate_tree(node) for node in final_nodes]
             if output:
@@ -132,29 +127,27 @@ class Parser:
             else:
                 return trees
         else:
-            print("The given sentence is not contained in the language produced by the given "
-                  "grammar!")
+            print("The given sentence is not contained in the language produced by the given grammar!")
+
 
 def generate_tree(node):
     """
     Generates the string representation of the parse tree.
-    :param nodes: the root node.
+    :param node: the root node.
     :return: the parse tree in string form.
     """
-    if node.child2 == None:
+    if node.child2 is None:
         return f"[{node.symbol} '{node.child1}']"
-    else:
-        return f"[{node.symbol} {generate_tree(node.child1)} {generate_tree(node.child2)}]"
+    return f"[{node.symbol} {generate_tree(node.child1)} {generate_tree(node.child2)}]"
+
 
 if __name__ == '__main__':
-    ARGUMENTS = sys.argv
-    if len(ARGUMENTS) > 3 or len(ARGUMENTS) == 2:
-        print("Usage: python3 Parser.py <grammar.file> <sentence.file>\n"
-              "or: python3 Parser.py <grammar as string> <sentence as string>")
-    elif len(ARGUMENTS) == 3:
-        GRAMMAR = "as path for the grammar" if os.path.isfile(ARGUMENTS[1]) else "as grammar"
-        SENTENCE = "as path for the sentence" if os.path.isfile(ARGUMENTS[2]) else "as sentence"
-        print(f"Using {ARGUMENTS[1]} {GRAMMAR} and {ARGUMENTS[2]} {SENTENCE}.")
-        PARSER = Parser(ARGUMENTS[1], ARGUMENTS[2])
-        PARSER.parse()
-        PARSER.print_tree()
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument("grammar",
+                           help="File containing the grammar or string directly representing the grammar.")
+    argparser.add_argument("sentence",
+                           help="File containing the sentence or string directly representing the sentence.")
+    args = argparser.parse_args()
+    CYK = Parser(args.grammar, args.sentence)
+    CYK.parse()
+    CYK.print_tree()

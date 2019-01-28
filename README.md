@@ -13,14 +13,14 @@ The code isn't by any means perfect and isn't supposed to.
 To run the parser **Python 3.6** needs to be installed. The file "GrammarConverter.py" needs to be either in the same directory or within a directory, in which Python looks for modules to include. The program can be run as a module (`python3 -m Parser`), when
 in the same directory, or as a normal python script. If the parser is run as a standalone program it expects two arguments. The first one is a file containing the grammar (see below for an example) and the second one a file containing the input sentence.
 
-`python3 Parser.py /home/Users/god/grammar.txt /home/Users/god/sentences/pajamas.txt`
+`python3 cyk_parser.py /home/Users/god/grammar.txt /home/Users/god/sentences/pajamas.txt`
 
 > Using /home/Users/god/grammar.txt as path for the grammar and /home/Users/god/sentences/pajamas.txt
 as path for the sentence.
 
 When the sentence is contained in the language produced by the grammar, the parser will output the parsed tree in a non-graphical string format.
 
-`python3 Parser.py grammar.txt "I shot an elephant in my pajamas"`  
+`python3 cyk_parser.py grammar.txt "I shot an elephant in my pajamas"`  
 > Using grammar.txt as path for the grammar and sentence.txt as path for the sentence.  
 The given sentence is contained in the language produced by the given grammar!
 
@@ -30,7 +30,7 @@ The given sentence is contained in the language produced by the given grammar!
 
 When the sentence is not contained in the grammar, the parser won't print out a tree.
 
-`python3 Parser.py some_grammar.txt sentence.txt`
+`python3 cyk_parser.py some_grammar.txt sentence.txt`
 
 > Using some_grammar.txt as path for the grammar and sentence.txt as path for the sentence.  
 The given sentence is not contained in the language produced by the given grammar!
