@@ -55,7 +55,7 @@ def convert_grammar(grammar):
             add_rule(rule)
             continue
         elif len(rule) > 2:
-            # Rule is in form A -> X B C or A -> X a.
+            # Rule is in form A -> X B C [...] or A -> X a.
             terminals = [(item, i) for i, item in enumerate(rule) if item[0] == "'"]
             if terminals:
                 for item in terminals:
@@ -65,14 +65,14 @@ def convert_grammar(grammar):
                     new_rules += [f"{rule[0]}{str(index)}", item[0]]
                 index += 1
             while len(rule) > 3:
-                new_rules += [f"{rule[0]}{str(index)}", rule[1], rule[2]]
+                new_rules.append([f"{rule[0]}{str(index)}", rule[1], rule[2]])
                 rule = [rule[0]] + [f"{rule[0]}{str(index)}"] + rule[3:]
                 index += 1
         # Adds the modified or unmodified (in case of A -> x i.e.) rules.
         add_rule(rule)
         res_append(rule)
         if new_rules:
-            res_append(new_rules)
+            result.extend(new_rules)
     # Handle the unit productions (A -> X)
     while unit_productions:
         rule = unit_productions.pop()

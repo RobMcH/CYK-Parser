@@ -36,7 +36,7 @@ When the sentence is not contained in the grammar, the parser won't print out a 
 The given sentence is not contained in the language produced by the given grammar!
 
 ### As imported module
-Alternativley the parser can be imported into other python scripts. The constructor expects a grammar which will be converted to CNF, so any CFG is fine, and some input to parse. Both of the arguments can either be file paths or just a string. Parser objects are callable and expect new input which by default just will be stored in the object and not directly parsed.
+Alternatively the parser can be imported into other python scripts. The constructor expects a grammar which will be converted to CNF, so any CFG is fine, and some input to parse. Both of the arguments can either be file paths or just a string. Parser objects are callable and expect new input which by default just will be stored in the object and not directly parsed.
 
 # Example input
 An example for a simple grammar is given below. Just paste it in a text file and run the parser with it and an input sentence file (it is assumed, that the whole input sentence is in the first line of that file) or pass it as a string to the parser.  
