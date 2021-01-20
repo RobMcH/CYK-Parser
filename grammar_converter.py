@@ -80,7 +80,7 @@ def convert_grammar(grammar):
             for item in RULE_DICT[rule[1]]:
                 new_rule = [rule[0]] + item
                 if len(new_rule) > 2 or new_rule[1][0] == "'":
-                    res_append(new_rule)
+                    result.insert(0, new_rule)
                 else:
                     unit_productions.append(new_rule)
                 add_rule(new_rule)
